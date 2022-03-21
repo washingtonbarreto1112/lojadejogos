@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 function inserirUsuario($conn,$nomeusu,$emailusu,$foneusu,$cpfusu,$tipousu,$cepusu,$numusu,$compusu,$senhausu,$pinusu) {
     $salto = ['cost' => 8];
@@ -44,4 +45,39 @@ function deletarUsuario($conn,$codigousu){
     $resultado = mysqli_query($conn,$query);
     return $resultado;
 }
+
+function verificaAcesso($conn,$email,$senha){
+
+    $query = "Select * from tbusuario where emailusu='{$email}'";
+    $resultado = mysqli_query($conn,$query);
+    if(mysqli_num_rows($resultado) > 0){
+         $row = mysqli_fetch_assoc($resultado);
+
+        if(password_verify($senha,$row["senhausu"])){
+            $_SESSION["email"] = $row["emailusu"];
+            $_SESSION["nome"] = $row["nomeusu"];
+            return "Tudo OK!";
+        }else{
+            return "Acesso negado";
+        }
+
+    }else{
+        return "Acesso negado";
+    }
+    return "Acesso negado";
+
+}
+    function usarAcesso(){
+        $email = isset($_SESSION["email"]);
+        if(!$email){
+            $_SESSION["msg"] = "<div class='alert alert-danger'role='alert'> Faça login para ter acesso ao sistema.</div>";
+            header("Location: ../view/index.php");
+            die();
+        }
+
+    }
+
+    function logout(){
+        return session_destroy();
+    }
 ?>

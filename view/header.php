@@ -1,3 +1,7 @@
+<?php
+include_once("../model/usuarioModel.php");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -51,10 +55,7 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Digite aqui!" aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">Pesquisar</button>
-                </form>
+                <ul>Olá, <?php echo($_SESSION["email"]);?></ul>
             </div>
         </div>
     </nav>
